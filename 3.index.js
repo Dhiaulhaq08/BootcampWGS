@@ -1,3 +1,4 @@
+//menginput modul di
 const readline = require('node:readline');
 const ac = new AbortController();
 const signal = ac.signal;
@@ -17,7 +18,7 @@ const rl = readline.createInterface({
     rl.question('Apa email kamu? ', (email) => {
     console.log(`Hobi kamu: ${email}`);
           
-          // Menutup readline setelah semua pertanyaan selesai
+// Menutup readline setelah semua pertanyaan selesai
           rl.close();
         });
       });
