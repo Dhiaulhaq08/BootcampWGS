@@ -5,6 +5,7 @@ const { default: isEmail } = require('validator/lib/isEmail');
 const fs = require ('fs');
 const { log } = require('node:console');
 
+
 //membuat interface kedalam 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -38,6 +39,8 @@ rl.question('Apa nama kamu? ', (nama) => {
           };
           
           var newContact = []; // membuat array kosong untuk dimasukan data
+         
+         
           if (fs.existsSync("data/contacts.json")) { //cek kondisi apakah file tersebut ada di directori
           const readContact = fs.readFileSync("data/contacts.json","utf-8");
           newContact = JSON.parse(readContact);
@@ -45,7 +48,7 @@ rl.question('Apa nama kamu? ', (nama) => {
             fs.writeFileSync('data/contacts.json'); //membuat file di direktori
 
           }
-
+         
         
           newContact.push(data); //menambh data di array
           
