@@ -1,4 +1,4 @@
-const validator = require('validator')
+const validator = require('validator');
 const readline = require('node:readline');
 const fs = require ('fs');
 
@@ -16,7 +16,7 @@ const question = (question) => {
       rl.question(question,(input)=> {
       resolve(input);
       })
-    })
+    }) 
   };
 
   function addContact(data) {
@@ -25,12 +25,19 @@ const question = (question) => {
     newContact = JSON.parse(readContact);
     } else { // kondisi jika file di direktori tidak ada
       fs.writeFileSync('data/contacts.json'); //membuat file di direktori
-    }
+    } 
     newContact.push(data);
     fs.writeFileSync('data/contacts.json',JSON.stringify(newContact,null, 2), "utf-8");
 
 }
+//membuat fungsi delete contak 
+function deleteContact(argv) { 
+ const data = JSON.parse(fs.readFileSync("data/contacts.json","utf-8")) //membaca data dari folder untuk diambil dan diproses
+  const newContact = data.filter((datas)=> datas.name !== argv.name) //membuat filter dan mengecualikan data yg ditulis di yargs
 
+  fs.writeFileSync('data/contacts.json',JSON.stringify(newContact,null, 2), "utf-8"); //replace data yang di input lalu dimasukan data yang baru
+ 
+}
 // function closeReadline() {
 //     rl.close();
 //     console.log('Interface readline ditutup.');
@@ -38,5 +45,5 @@ const question = (question) => {
 
     
 
-    module.exports = {rl,question,addContact};
+    module.exports = {rl,question,addContact,deleteContact};
   

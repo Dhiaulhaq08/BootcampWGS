@@ -1,5 +1,6 @@
 //menginput modul di
 const readline = require('node:readline');
+const validator = require('validator');
 const ac = new AbortController();
 const signal = ac.signal;
 //membuat interface agar bisa menampilkan input di cli
@@ -11,7 +12,9 @@ const rl = readline.createInterface({
 
     rl.question('Apa nama kamu? ', (nama) => {
     console.log(`Nama kamu: ${nama}`);
+    if (condition) {
       
+    }
     rl.question('Berapa nomor kamu? ', (noTelp) => {
     console.log(`noTelp kamu: ${noTelp}`);
         

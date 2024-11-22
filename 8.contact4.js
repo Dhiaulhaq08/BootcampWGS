@@ -25,10 +25,6 @@ const main = async () => {
     email,
   };
 
- 
-
-
-
   func.addContact(data);
   func.rl.close();
 

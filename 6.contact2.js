@@ -22,7 +22,7 @@ rl.question('Apa nama kamu? ', (nama) => {
             console.log(`${phoneNumber} adalah nomor telepon yang valid.`);//validasi nomor telepon
           } else {
             console.log(`${phoneNumber} bukan nomor telepon yang valid.`);  
-          };
+          }; 
     
              rl.question('Apa email kamu? ', (email) => { //membuat pertanyaan email
                 if (validator.isEmail(email)) {
@@ -33,7 +33,7 @@ rl.question('Apa nama kamu? ', (nama) => {
           };
         
           const data = { //membuat sebuah data yang dengan format sesuai dengan data yang di input
-            nama,
+            nama, 
             phoneNumber,
             email
           };

@@ -37,11 +37,19 @@ rl.question('Apa nama kamu? ', (nama) => {
             email
           };
             
+          // var newContact = []; // membuat array kosong untuk dimasukan data
+          // const readContact =fs.readFileSync("data/contacts.json","utf-8"); //membaca data dari direktori  
+          // newContact = JSON.parse(readContact); //merubah data menjadi array
+      
           var newContact = []; // membuat array kosong untuk dimasukan data
           const readContact =fs.readFileSync("data/contacts.json","utf-8"); //membaca data dari direktori  
           newContact = JSON.parse(readContact); //merubah data menjadi array
-      
+
           newContact.push(data); //menambh data di array
+          
+          if ('data/contacts.json === exist') {
+            
+          }
       
           fs.writeFileSync('data/contacts.json',JSON.stringify(newContact,null, 2), "utf-8"); //memasukan data ke direktori
           // Menutup readline setelah semua pertanyaan selesai
