@@ -121,6 +121,38 @@ function ubahKontak(argv,data) {
   }
 }
 
+// function cekContacts(argv,data) { 
+//   const readContact = JSON.parse (fs.readFileSync("data/contacts.json","utf-8"));
+//   const searchContact = readContact.filter((data)=> data.name === argv.name)
+//   // newContact.push(data);
+//    if (searchContact) {
+//     console.log("kontak tersebut sudah ada ");
+//    } else { 
+//     readContact.push(data);
+//     fs.writeFileSync('data/contacts.json',JSON.stringify(readContact,null, 2), "utf-8");
+//    } 
+// }
+
+function cekContacts(argv, data) {
+  // Membaca file contacts.json
+  const readContact = JSON.parse(fs.readFileSync("data/contacts.json", "utf-8"));
+  
+  // Mencari apakah kontak dengan nama yang sama sudah ada
+  const searchContact = readContact.filter((contact) => 
+    contact.name.toLowerCase() === argv.name.toLowerCase()
+  );
+
+  // Jika searchContact memiliki panjang lebih dari 0, berarti sudah ada
+  if (searchContact.length > 0) {
+    console.log("Kontak tersebut sudah ada.");
+  } else {
+    // Jika tidak ada, tambahkan kontak baru
+    readContact.push(data);
+    // Menyimpan data kontak yang telah diperbarui ke dalam file JSON
+    fs.writeFileSync("data/contacts.json", JSON.stringify(readContact, null, 2), "utf-8");
+    console.log("Kontak berhasil ditambahkan.");
+  }
+}
  
 
 // Memanggil fungsi dengan parameter yang diterima dari command line
@@ -129,5 +161,5 @@ function ubahKontak(argv,data) {
 //   ubahKontak(name, mobile, email);
 // }
 
-    module.exports = {rl,question,addContact,deleteContact,tampilkanKontak,detailKontak,ubahKontak};
+    module.exports = {rl,question,addContact,deleteContact,tampilkanKontak,detailKontak,ubahKontak,cekContacts};
   

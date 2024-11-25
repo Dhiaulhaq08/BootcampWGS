@@ -37,6 +37,8 @@ yargs.command({
       }
       //memanggil fungsi untuk merubah kontak
       func.ubahKontak(argv,data)
+
+      
      }
 })
   
