@@ -43,6 +43,7 @@ function deleteContact(argv) {
 //     console.log('Interface readline ditutup.');
 // }
 
+// fungsi untuk menampilkan data
 function tampilkanKontak() { 
   const readContact = JSON.parse(fs.readFileSync("data/contacts.json","utf-8"));
   Object.keys(readContact).forEach(key => {
@@ -83,7 +84,7 @@ function tampilkanKontak() {
 //     console.error("Terjadi kesalahan dalam membaca package.json:", error.message);
 //   }
 // }
-
+//funsi untuk menampilkan detail semua kontak
 function detailKontak(argv) {
   try {
     // Membaca isi dari contacts.json
@@ -97,8 +98,8 @@ function detailKontak(argv) {
     if (kontak) {
       console.log(`Detail Kontak:`);
       console.log(`Nama: ${kontak.name}`);
-      console.log(`Email: ${kontak.mobile}`);
-      console.log(`Telepon: ${kontak.email}`);
+      console.log(`Mobile: ${kontak.mobile}`);
+      console.log(`Email: ${kontak.email}`);
     } else {
       console.log(`Kontak dengan nama "${namaKontak}" tidak ditemukan.`);
     }
@@ -106,9 +107,9 @@ function detailKontak(argv) {
     console.error("Terjadi kesalahan dalam membaca contacts.json:", error.message);
   }
 }
-
+//fungsi untuk mengupdate kontak
 function ubahKontak(argv,data) { 
-  const readContact = JSON.parse(fs.readFileSync('data/contacts.json', 'utf8'));
+  const readContact = JSON.parse(fs.readFileSync('data/contacts.json', 'utf8')); 
   const newContact = readContact.filter((data)=> data.name.toLowerCase() !== argv.name.toLowerCase())
 
   if (readContact.length === newContact.length) {
