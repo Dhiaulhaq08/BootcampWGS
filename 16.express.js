@@ -3,6 +3,7 @@ const app = express()
 const path = require('path');
 
 
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 })
@@ -12,6 +13,7 @@ app.get('/about', (req, res) => {
 app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'contact.html'));
 })
+
 
 app.use((req,res)=> { 
     res.status(404).send("404 : Not found")
