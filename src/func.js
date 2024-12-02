@@ -154,6 +154,51 @@ function cekContacts(argv, data) {
   }
 }
  
+function deleteContact2(identifier) {
+  // Baca data kontak dari file JSON
+  let contacts = JSON.parse(fs.readFileSync("data/contacts.json", "utf-8"));
+
+  // Filter kontak yang tidak cocok dengan identifier (kontak yang dihapus akan dilewati)
+  const filteredContacts = contacts.filter(contact => contact.name !== identifier);
+
+  // Tulis kembali data yang telah difilter ke file JSON
+  fs.writeFileSync("data/contacts.json", JSON.stringify(filteredContacts, null, 2));
+
+  return filteredContacts.length !== contacts.length; // Mengembalikan true jika ada kontak yang dihapus
+}
+
+function addContact2(data) {
+  if (fs.existsSync("data/contacts.json")) { //cek kondisi apakah file tersebut ada di directori
+    const readContact = fs.readFileSync("data/contacts.json","utf-8");
+    newContact = JSON.parse(readContact);
+    } else { // kondisi jika file di direktori tidak ada
+      fs.writeFileSync('data/contacts.json'); //membuat file di direktori
+    } 
+    newContact.push(data);
+    fs.writeFileSync('data/contacts.json',JSON.stringify(newContact,null, 2), "utf-8");
+
+}
+
+function editContact2(identifier, updatedData) {
+  // Baca semua kontak dari file JSON
+  let contacts = JSON.parse(fs.readFileSync("data/contacts.json", "utf-8"));
+
+  // Cari indeks kontak yang akan diupdate
+  const contactIndex = contacts.findIndex(contact => contact.name === identifier);
+
+  if (contactIndex !== -1) {
+      // Update kontak dengan data baru
+      contacts[contactIndex] = { ...contacts[contactIndex], ...updatedData };
+
+      // Simpan kembali data ke file JSON
+      fs.writeFileSync("data/contacts.json", JSON.stringify(contacts, null, 2));
+
+      return true; // Berhasil diupdate
+  }
+
+  return false; // Kontak tidak ditemukan
+}
+
 
 // Memanggil fungsi dengan parameter yang diterima dari command line
 // if (argv._[0] === 'ubah') {
@@ -161,5 +206,5 @@ function cekContacts(argv, data) {
 //   ubahKontak(name, mobile, email);
 // }
 
-    module.exports = {rl,question,addContact,deleteContact,tampilkanKontak,detailKontak,ubahKontak,cekContacts};
+    module.exports = {rl,question,addContact,deleteContact,tampilkanKontak,detailKontak,ubahKontak,cekContacts,deleteContact2,addContact2,editContact2};
   
