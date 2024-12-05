@@ -166,18 +166,205 @@ function deleteContact2(identifier) {
 
   return filteredContacts.length !== contacts.length; // Mengembalikan true jika ada kontak yang dihapus
 }
+// PERLU DITULIS ULANG DAN DICEK
+// function addContact2(data) {
+//   if (fs.existsSync("data/contacts.json")) { //cek kondisi apakah file tersebut ada di directori
+//     const readContact = fs.readFileSync("data/contacts.json","utf-8");
+//     newContact = JSON.parse(readContact);
+//     // Mencari apakah kontak dengan nama yang sama sudah ada
+//     const searchContact = readContact.filter((contact) => contact.name.toLowerCase() === req.body.name.toLowerCase()
+//     );
+//     // Jika searchContact memiliki panjang lebih dari 0, berarti sudah ada
+//     if (searchContact.length > 0) {
+//       console.log("Kontak tersebut sudah ada.");
+//     } else {
+//       // Jika tidak ada, tambahkan kontak baru
+//       readContact.push(data);
+//       // Menyimpan data kontak yang telah diperbarui ke dalam file JSON
+//       fs.writeFileSync("data/contacts.json", JSON.stringify(readContact, null, 2), "utf-8");
+//       console.log("Kontak berhasil ditambahkan.");
+//     }
+//     } else { // kondisi jika file di direktori tidak ada
+//       fs.writeFileSync('data/contacts.json'); //membuat file di direktori
+//     } 
+//     newContact.push(data);
+//     fs.writeFileSync('data/contacts.json',JSON.stringify(newContact,null, 2), "utf-8");
 
+// }
+
+// JADI TANPA VALIDATOR
+// function addContact2(data) {
+//       if (fs.existsSync("data/contacts.json")) { //cek kondisi apakah file tersebut ada di directori
+//         const readContact = fs.readFileSync("data/contacts.json","utf-8");
+//         newContact = JSON.parse(readContact);
+//         } else { // kondisi jika file di direktori tidak ada
+//           fs.writeFileSync('data/contacts.json'); //membuat file di direktori
+//         } 
+//         newContact.push(data);
+//         fs.writeFileSync('data/contacts.json',JSON.stringify(newContact,null, 2), "utf-8");
+//       }
+
+// FUNGTION WITH VALIDATION FOR ADD CONTACT
+// function validateContact(data) {
+
+//   if (fs.existsSync("data/contacts.json")) {
+//     const readContact = fs.readFileSync("data/contacts.json", "utf-8");
+//   } else {
+//     fs.writeFileSync("data/contacts.json", "[]", "utf-8");
+//   }
+  
+//   const isNameExists = newContact.some(contact => contact.name === data.name);
+//   return { isNameExists};
+// }
+
+// VALIDASI KONTAK GANDA
+// function addContact2(identifier){
+// let contacts = JSON.parse(fs.readFileSync("data/contacts.json", "utf-8"));
+
+//   // Mencari indeks kontak berdasarkan nama lama (identifier)
+//   const contactIndex = contacts.findIndex(contact => contact.name === identifier);
+
+//   if (contactIndex === -1) {
+//       return false; // Kontak tidak ditemukan
+//   }
+
+//   // Validasi: Cek apakah nama baru sudah ada di kontak lain
+//   const isNameTaken = contacts.some((contact, index) => {
+//       return contact.name === updatedData.name && index !== contactIndex;
+//   });
+
+//   if (isNameTaken) {
+//       return "Nama sudah digunakan"; // Nama baru bertabrakan dengan kontak lain
+//   }
+
+//   // Update kontak dengan data baru
+//   contacts[contactIndex] = { ...contacts[contactIndex], ...updatedData };
+
+//   // Menyimpan kembali data ke file JSON
+//   fs.writeFileSync("data/contacts.json", JSON.stringify(contacts, null, 2));
+
+//   return true;
+// }
+
+// function addContact2(data) {
+//   if (fs.existsSync("data/contacts.json")) { // cek apakah file ada di direktori
+//     const readContact = fs.readFileSync("data/contacts.json", "utf-8");
+//     newContact = JSON.parse(readContact);
+//   } else { // jika file tidak ada
+//     fs.writeFileSync('data/contacts.json', JSON.stringify([])); // buat file kosong jika belum ada
+//     newContact = [];
+//   }
+
+//   // Cek apakah kontak sudah ada
+//   const isDuplicate = newContact.some(contact => contact.name === data.name); // misalnya kontak memiliki field 'email' yang unik
+
+//   if (isDuplicate) {
+//     console.log("Kontak dengan nama ini sudah ada!");
+//     return; // menghentikan eksekusi fungsi jika kontak sudah ada
+//   }
+
+//   // Jika tidak duplikat, lanjutkan menambahkan kontak
+//   newContact.push(data);
+//   fs.writeFileSync('data/contacts.json', JSON.stringify(newContact, null, 2), "utf-8");
+//   console.log("Kontak berhasil ditambahkan!");
+// }
 function addContact2(data) {
-  if (fs.existsSync("data/contacts.json")) { //cek kondisi apakah file tersebut ada di directori
-    const readContact = fs.readFileSync("data/contacts.json","utf-8");
-    newContact = JSON.parse(readContact);
-    } else { // kondisi jika file di direktori tidak ada
-      fs.writeFileSync('data/contacts.json'); //membuat file di direktori
-    } 
-    newContact.push(data);
-    fs.writeFileSync('data/contacts.json',JSON.stringify(newContact,null, 2), "utf-8");
+  let newContact = [];
 
+  // Cek apakah file contacts.json ada di direktori
+  if (fs.existsSync("data/contacts.json")) {
+    // Membaca file JSON jika file ada
+    const readContact = fs.readFileSync("data/contacts.json", "utf-8");
+    newContact = JSON.parse(readContact); // Parse data JSON menjadi array
+  } else {
+    // Jika file tidak ada, buat file contacts.json baru dengan array kosong
+    fs.writeFileSync('data/contacts.json', JSON.stringify([], null, 2), "utf-8");
+  }
+
+  // Cek apakah nama kontak sudah ada di dalam array
+  const existingContact = newContact.find(c => c.name === data.name);
+
+  if (existingContact) {
+    // Jika nama kontak sudah ada, lemparkan error
+    throw new Error('Nama kontak sudah ada.');
+  }
+
+  // Jika nama belum ada, tambahkan kontak baru ke array
+  newContact.push(data);
+
+  // Tulis kembali data kontak ke dalam file contacts.json
+  fs.writeFileSync('data/contacts.json', JSON.stringify(newContact, null, 2), "utf-8");
 }
+
+// function editContact2(identifier, updatedData) {
+//   // Baca semua kontak dari file JSON
+//   let contacts = JSON.parse(fs.readFileSync("data/contacts.json", "utf-8"));
+
+//   // function addContact(data) {
+//   //   if (fs.existsSync("data/contacts.json")) { //cek kondisi apakah file tersebut ada di directori
+//   //     const readContact = fs.readFileSync("data/contacts.json","utf-8");
+//   //     newContact = JSON.parse(readContact);
+//   //     } else { // kondisi jika file di direktori tidak ada
+//   //       fs.writeFileSync('data/contacts.json'); //membuat file di direktori
+//   //     } 
+//   //     newContact.push(data);
+//   //     fs.writeFileSync('data/contacts.json',JSON.stringify(newContact,null, 2), "utf-8");
+  
+//   // }
+//   // Cari indeks kontak yang akan diupdate
+//   const contactIndex = contacts.findIndex(contact => contact.name === identifier);
+
+//   if (contactIndex.name == fs.existsSync("data/contacts.json")) {
+//      //cek kondisi apakah file tersebut ada di directori
+//       const readContact = fs.readFileSync("data/contacts.json","utf-8");
+//       newContact = JSON.parse(readContact);
+       
+//       } else { // kondisi jika file di direktori tidak ada
+        
+//         contacts[contactIndex] = { ...contacts[contactIndex], ...updatedData };
+
+//         // Simpan kembali data ke file JSON
+//         fs.writeFileSync("data/contacts.json", JSON.stringify(contacts, null, 2));
+//       // Update kontak dengan data baru
+//       // contacts[contactIndex] = { ...contacts[contactIndex], ...updatedData };
+
+//       // // Simpan kembali data ke file JSON
+//       // fs.writeFileSync("data/contacts.json", JSON.stringify(contacts, null, 2));
+
+//       return true; // Berhasil diupdate
+//   }
+
+//   return false; // Kontak tidak ditemukan
+// }
+
+// function editContact2(identifier, updatedData) {
+//   // Membaca kontak dari file JSON
+//   let contacts = JSON.parse(fs.readFileSync("data/contacts.json", "utf-8"));
+
+//   // Mencari indeks kontak berdasarkan nama lama (identifier)
+//   const contactIndex = contacts.findIndex(contact => contact.name === identifier);
+
+//   if (contactIndex === -1) {
+//       return false; // Kontak tidak ditemukan
+//   }
+
+//   // Validasi: Cek apakah nama baru sudah ada di kontak lain
+//   const isNameTaken = contacts.some((contact, index) => {
+//       return contact.name === updatedData.name && index !== contactIndex;
+//   });
+
+//   if (isNameTaken) {
+//       return "Nama sudah digunakan"; // Nama baru bertabrakan dengan kontak lain
+//   }
+
+//   // Update kontak dengan data baru
+//   contacts[contactIndex] = { ...contacts[contactIndex], ...updatedData }; 
+
+//   // Menyimpan kembali data ke file JSON
+//   fs.writeFileSync("data/contacts.json", JSON.stringify(contacts, null, 2));
+
+//   return true; // Berhasil diupdate
+// }
 
 function editContact2(identifier, updatedData) {
   // Baca semua kontak dari file JSON
@@ -186,7 +373,16 @@ function editContact2(identifier, updatedData) {
   // Cari indeks kontak yang akan diupdate
   const contactIndex = contacts.findIndex(contact => contact.name === identifier);
 
+  const existingContact = contacts.find(c => c.name === updatedData.name);
+
+  if (existingContact) {
+    // Jika nama kontak sudah ada, lemparkan error
+    throw new Error('Nama kontak sudah ada.');
+  }
+
   if (contactIndex !== -1) {
+ 
+    // Tulis kembali data kontak ke dalam file contacts.json
       // Update kontak dengan data baru
       contacts[contactIndex] = { ...contacts[contactIndex], ...updatedData };
 
