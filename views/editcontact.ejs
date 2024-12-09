@@ -148,7 +148,18 @@
 </head>
 <body>
     <h1>Edit Kontak</h1>
+    
+
+    
+    
     <form action="/editcontact/<%= contact.name %>" method="POST">
+
+        <% if (typeof error !== 'undefined') { %>
+            <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
+                <%= error %>
+            </div>
+        <% } %>
+
         <label for="name">Nama:</label>
         <input type="text" name="name" value="<%= contact.name %>" required><br><br>
 
@@ -163,4 +174,35 @@
     <button><a href="/contact" style="text-decoration: none; color: inherit;">Batal</a></button>
 </body>
 </html>
+ 
 
+ <!-- <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Kontak</title>
+</head>
+<body>
+    <h1>Edit Kontak</h1>
+    
+    <% if (typeof error !== 'undefined') { %>
+        <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
+            <%= error %>
+        </div>
+    <% } %>
+    
+    <form action="/editcontact/<%=contact.name %>" method="POST">
+        <label for="name">Nama:</label>
+        <input type="text" id="name" name="name" value="<%= contact.name %>" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<%= contact.email %>" required><br><br>
+        
+        <label for="mobile">Nomor Telepon:</label>
+        <input type="text" id="mobile" name="mobile" value="<%= contact.mobile %>" required><br><br>
+        
+        <button type="submit">Simpan</button>
+    </form>
+</body>
+</html> -->

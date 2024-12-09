@@ -116,6 +116,8 @@ app.get('/deletecontact/:name', (req, res) => {
         res.status(404).send('Kontak tidak ditemukan.');
     }
 });
+//----------------------EDIT CONTACT-----------------------------------------
+
 
 app.get('/editcontact/:name', (req, res) => {
     const name = req.params.name; // Ambil parameter `name`
@@ -145,32 +147,100 @@ app.get('/editcontact/:name', (req, res) => {
 //         res.status(404).send('Gagal memperbarui kontak.');
 //     }
 // });
+// app.post('/editcontact/:name', (req, res) => {
+//     const oldName = req.params.name; // Nama lama sebagai identifier
+//     const { name, email, mobile } = req.body; // Data baru dari form
+
+//     // const isUpdated = func.editContact2(oldName, { name, email, mobile });
+
+
+//     // if (isUpdated) {
+//     //     res.redirect('/contact'); // Redirect ke daftar kontak setelah berhasil
+//     // } else {
+//     //     res.status(404).send('Gagal memperbarui kontak.');
+//     // }
+//     // Jadi namun butuh pembaruan
+//     if (!name || !email || !mobile) {
+//         return res.status(400).send('Semua field harus diisi.');
+//     }
+//     if (!validator.isMobilePhone(mobile, 'id-ID')) {
+//         // return res.status(400).send('Nomor telepon tidak valid. Pastikan nomor telepon Indonesia yang benar.');
+//         return res.render('editcontact', { 
+//             error: 'Nomor telepon tidak valid. Pastikan nomor telepon Indonesia yang benar.',
+//             name, email, mobile
+//         });
+//     }
+//     try {
+//         func.editContact2(oldName, { name, email, mobile });
+//         res.redirect('/contact'); 
+//     } catch (error) {
+//         return res.render('editcontact', { 
+//             error: 'Gagal edit kontak: ' + error.message,
+//             name, email, mobile
+//         });
+        
+//     }
+// });
 app.post('/editcontact/:name', (req, res) => {
     const oldName = req.params.name; // Nama lama sebagai identifier
     const { name, email, mobile } = req.body; // Data baru dari form
 
-    // const isUpdated = func.editContact2(oldName, { name, email, mobile });
+    // Jika ada field yang kosong, kirimkan pesan error dan data form yang sudah diisi
+    // if (!name || !email || !mobile) {
+    //     return res.render('editcontact', { 
+    //         error: 'Semua field harus diisi.',
+    //     });
+    // }
 
+    // // Validasi nomor telepon Indonesia
+    // if (!validator.isMobilePhone(mobile, 'id-ID')) {
+    //     return res.render('editcontact', { 
+    //         error: 'Nomor telepon tidak valid. Pastikan nomor telepon Indonesia yang benar.', 
+    //     });
+    // }
 
-    // if (isUpdated) {
+    // try {
+    //     // Simulasikan update data kontak
+    //     func.editContact2(oldName, { name, email, mobile });
     //     res.redirect('/contact'); // Redirect ke daftar kontak setelah berhasil
-    // } else {
-    //     res.status(404).send('Gagal memperbarui kontak.');
+    // } catch (error) {
+    //     // Jika gagal, kirimkan error ke tampilan EJS
+    //     return res.render('editcontact', { 
+    //         error: 'Gagal edit kontak: ' + error.message,
+    //     });
     // }
     if (!name || !email || !mobile) {
-        return res.status(400).send('Semua field harus diisi.');
+        return res.render('editcontact', { error : 'Semua field harus diisi',
+            contact: { 
+                name:req.params.name,
+                mobile:req.body.mobile,
+                email:req.body.email
+            }
+        });
     }
     if (!validator.isMobilePhone(mobile, 'id-ID')) {
-        return res.status(400).send('Nomor telepon tidak valid. Pastikan nomor telepon Indonesia yang benar.');
+        return res.render('editcontact', { error : 'Bukan nomor telepon yang valid',
+            contact: { 
+                name:req.params.name,
+                mobile:req.body.mobile,
+                email:req.body.email
+            }
+        })
     }
     try {
         func.editContact2(oldName, { name, email, mobile });
         res.redirect('/contact'); 
     } catch (error) {
-        return res.status(400).send('Gagal edit kontak: ' + error.message);
+        return res.render('editcontact', { error : 'nama sudah ada', 
+            contact: { 
+            name:req.params.name,
+            mobile:req.body.mobile,
+            email:req.body.email
+        }})
         
     }
 });
+// });
 
 // app.post('/editcontact/:name', (req, res) => {
 //     const oldName = req.params.name; // Nama lama sebagai identifier
@@ -184,6 +254,7 @@ app.post('/editcontact/:name', (req, res) => {
 //         res.status(404).send('Gagal memperbarui kontak.');
 //     }
 // });
+//-----------------DETAIL KONTAK------------------------------------------------
 
 app.get('/contact/:name', (req, res) => {
     const name = req.params.name; // Mengambil parameter `name` dari URL
