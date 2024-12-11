@@ -1,0 +1,28 @@
+<h1>Input karyawan baru</h1>
+
+<% if (typeof errorMsg !== 'undefined') { %>
+    <span style="color: red;">
+        <%= errorMsg[0].path +': '+ errorMsg[0].msg +' '+ errorMsg[0].value %>
+    </span>
+    <br><br>
+<% } %>
+
+<form action="/addcontact/add-data" method="post">
+
+    
+    <label for="">Nama </label>
+    <input type="text" name="name">
+    <br><br>
+
+    <label for="">Mobile</label>
+    <input type="text" name="mobile">
+    <br><br>
+
+    <label for="">Email</label><br>
+    <textarea name="email" rows="5" cols="50"></textarea>
+    <br><br>
+
+
+    <button type="submit">simpan</button>
+    
+</form>

@@ -8,10 +8,8 @@ const func = require("./src/func.js");
 const validator = require('validator')
 
 
-
-
 app.set("view engine", "ejs");
-
+app.set('views', "./view")
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));

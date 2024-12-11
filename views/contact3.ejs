@@ -1,0 +1,38 @@
+<%- include('layouts/header') %>
+<%- include('layouts/nav') %>
+<body>
+    <h1>Contact List</h1>
+
+    <a href="/addcontact"><button>+ Add Contact</button></a>
+
+    <% if (oneCont && oneCont.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% oneCont.forEach(contact => { %>
+                    <tr>
+                        <td><%= contact.id %></td>
+                        <td><%= contact.name %></td>
+                        <td><%= contact.mobile %></td>
+                        <td><%= contact.email %></td>
+                        <td><button><a href="/editcontact/<%= contact.id %>" style="text-decoration: none; color: inherit;">Edit</a></button>
+                            <button><a href = "/deletecontact/<%= contact.id %>" style="text-decoration: none; color: inherit;">Hapus</a></button>
+                            <button><a href="/contact/<%= contact.id %>" style="text-decoration: none; color: inherit;">Detail</a></button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No contacts found</p>
+    <% } %>
+</body>
+</html>
